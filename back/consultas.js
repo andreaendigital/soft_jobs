@@ -31,8 +31,13 @@ const verificarCredenciales = async (email, password) => {
   }
 
   const agregarUsuario = async ({email, lenguage, password, rol}) =>{
-console.log(email, lenguage, password, rol)
-  }
+    const salt = await bcrypt.genSalt(10); // Genera un "salt"
+    const hashedPassword = await bcrypt.hash(password, salt); // Encripta la contraseña
+    const consulta =
+      "INSERT INTO usuarios(id, email, password, rol, lenguage) VALUES (DEFAULT, $1, $2, $3, $4) RETURNING *";
+    const values = [email, hashedPassword, rol, lenguage];
+    await pool.query(consulta, values);
+  };
 
 
   module.exports = { getJobs, verificarCredenciales, agregarUsuario};
