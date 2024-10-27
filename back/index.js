@@ -27,7 +27,7 @@ app.post("/login", async (req, res) => {
   
   app.post("/usuarios", async (req, res) => {
     try {
-      await agregarUser(req.body);
+      await agregarUsuario(req.body);
       res.status(201).send("Usuario agregado con exito ;)");
     } catch (error) {
       res
